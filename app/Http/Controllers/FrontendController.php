@@ -38,4 +38,9 @@ class FrontendController extends Controller
         return view('categories', $this->data);
     }
 
+    public function sepet(Request $request)
+    {
+        dd($request->all());
+    }
+
 }

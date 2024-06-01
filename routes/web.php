@@ -8,8 +8,11 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\FrontendController;
 
-Route::get('/',[FrontendController::class, 'index'])->name('index');
-Route::get('/admin',[AuthController::class, 'login'])->name('login');
+Route::get('/', [FrontendController::class, 'index'])->name('index');
+Route::post('/sepet', [FrontendController::class, 'sepet'])->name('sepet');
+
+
+Route::get('/admin', [AuthController::class, 'login'])->name('login');
 
 
 Route::get('/login', function () {
@@ -76,12 +79,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/categories/update', [CategoriesController::class, 'updateCategory'])->name('categories.update');
     Route::get('/dashboard/categories/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
     Route::post('/dashboard/categories/add', [CategoriesController::class, 'addCategory'])->name('categories.add');
-
-
-
-
-
-
-    
-
 });

@@ -126,7 +126,11 @@
     </div>
 </div>
 
-</div> <!-- .hiraola-footer_area -->
+</div> 
+
+
+
+@include('layouts.basket')
 
 <script src="{{ asset('front/assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('front/assets/js/vendor/jquery-migrate-3.3.2.min.js') }}"></script>

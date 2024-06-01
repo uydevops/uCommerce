@@ -153,29 +153,13 @@
                     </div>
                 </div>
             </div>
-            <div class="offcanvas-minicart_wrapper" id="miniCart">
-                <div class="offcanvas-menu-inner">
-                    <a href="#" class="btn-close"><i class="ion-android-close"></i></a>
-                    <div class="minicart-content">
-                        <div class="minicart-heading">
-                            <h4>Sepetiniz</h4>
-                        </div>
-                        <ul class="minicart-list" id="minicart-list">
-                            <!-- Ürünler burada listelenecek -->
-                        </ul>
-                    </div>
-                    <div class="minicart-item_total">
-                        <span>Alt Toplam</span>
-                        <span class="ammount" id="subtotal">$0.00</span>
-                    </div>
-                    <div class="minicart-btn_area">
-                        <a href="cart.html" class="hiraola-btn hiraola-btn_dark hiraola-btn_fullwidth">Sepet</a>
-                    </div>
-                    <div class="minicart-btn_area">
-                        <a href="checkout.html" class="hiraola-btn hiraola-btn_dark hiraola-btn_fullwidth">Ödeme</a>
-                    </div>
-                </div>
-            </div>
+            
+
+
+
+ 
+
+
             <div class="mobile-menu_wrapper" id="mobileMenu">
                 <div class="offcanvas-menu-inner">
                     <div class="container">

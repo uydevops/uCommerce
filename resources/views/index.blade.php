@@ -176,11 +176,6 @@
                                                     <img class="primary-img" src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
                                                     <img class="secondary-img" src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
                                                 </a>
-                                                <div class="add-actions">
-                                                    <ul>
-                                                        <li><a class="hiraola-add_cart" href="" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a></li>
-                                                    </ul>
-                                                </div>
                                             </div>
                                             <div class="hiraola-product_content">
                                                 <div class="product-desc_info">
@@ -190,7 +185,8 @@
                                                     </div>
                                                     <div class="additional-add_action">
                                                         <ul>
-                                                            <li><a class="hiraola-add_compare" href="" data-bs-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i class="ion-android-favorite-outline"></i></a></li>
+                                                            <!----add basket---->
+                                                            <li><button class="add_basket-{{ $product->id }}" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></button></li>
                                                         </ul>
                                                     </div>
                                                     <div class="rating-box">
@@ -247,52 +243,7 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        @foreach($products as $product)
-            $('.add_basket-{{ $product->id }}').click(function (e) {
-                e.preventDefault();
-                addToCart('{{ $product->id }}', '{{ $product->name }}', {{ $product->price }});
-            });
-        @endforeach
-    });
-
-    function addToCart(id, name, price) {
-        // Sepete eklenen ürünleri listeye ekle
-        var itemHtml = `
-            <li class="minicart-product">
-                <a class="product-item_remove" href="#" onclick="removeFromCart(this, ${price})"><i class="ion-android-close"></i></a>
-                <div class="product-item_img">
-                    <img src="https://via.placeholder.com/100x100" alt="Product Image">
-                </div>
-                <div class="product-item_content">
-                    <a class="product-item_title" href="#">${name}</a>
-                    <span class="product-item_quantity">1 × <span>$${price.toFixed(2)}</span></span>
-                </div>
-            </li>
-        `;
-        $('#minicart-list').append(itemHtml);
-
-        // Alt toplamı güncelle
-        updateSubtotal(price);
-    }
-
-    function updateSubtotal(price) {
-        var currentTotal = parseFloat($('#subtotal').text().replace('$', ''));
-        var newTotal = currentTotal + price;
-        $('#subtotal').text('$' + newTotal.toFixed(2));
-    }
-
-    function removeFromCart(element, price) {
-        // Ürünü listeden kaldır
-        $(element).closest('.minicart-product').remove();
-
-        // Alt toplamı güncelle
-        updateSubtotal(-price);
-    }
-</script>
 
 
 @include('layouts.footer')
