@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests; //Bunu ekleme sebebimi
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\CustomerGroups;
 use Illuminate\Support\Facades\Cache;
+
 class FrontendController extends Controller
 {
 
@@ -40,7 +41,20 @@ class FrontendController extends Controller
 
     public function sepet(Request $request)
     {
-        dd($request->all());
+        // Gelen request'i al
+        $requestData = $request->all();
+    
+        // Boş bir quantities dizisi oluştur
+        $quantities = [];
+    
+        // Her bir products öğesi için quantities dizisine 1 ekle
+        foreach ($requestData['products'] as $product) {
+            $quantities[] = 1;
+        }
+    
+        // Yeni quantities dizisini request'e ekle
+        $requestData['quantities'] = $quantities;
+     dd($requestData);
+       
     }
-
 }

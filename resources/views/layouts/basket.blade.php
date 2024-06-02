@@ -45,39 +45,18 @@ $(document).ready(function () {
     $('#minicart-list').on('click', '.product-item_remove', function(e) {
         e.preventDefault();
         var price = parseFloat($(this).closest('.minicart-product').find('.product-item_price').text().replace('₺', '').replace(',', ''));
-        var quantity = parseInt($(this).closest('.minicart-product').find('.quantity-value').text());
-        var subtotal = price * quantity;
+        var subtotal = price;
         $(this).closest('.minicart-product').remove();
         updateSubtotalAmount(-subtotal);
-    });
-
-    $('#minicart-list').on('click', '.quantity-decrease', function() {
-        var quantityElement = $(this).siblings('.quantity-value');
-        var currentQuantity = parseInt(quantityElement.text());
-        if (currentQuantity > 1) {
-            quantityElement.text(currentQuantity - 1);
-            updateCartItemQuantity($(this).closest('.minicart-product'), currentQuantity - 1);
-        }
-    });
-
-    $('#minicart-list').on('click', '.quantity-increase', function() {
-        var quantityElement = $(this).siblings('.quantity-value');
-        var currentQuantity = parseInt(quantityElement.text());
-        quantityElement.text(currentQuantity + 1);
-        updateCartItemQuantity($(this).closest('.minicart-product'), currentQuantity + 1);
     });
 
     function addItemToCart(id, name, price, image) {
         var existingItem = $('.minicart-product[data-id="' + id + '"]');
         if (existingItem.length > 0) {
-            var quantityElement = existingItem.find('.quantity-value');
-            var currentQuantity = parseInt(quantityElement.text());
-            quantityElement.text(currentQuantity + 1);
-            updateCartItemQuantity(existingItem, currentQuantity + 1);
+            alert('Bu ürün zaten sepete eklenmiş.');
         } else {
             var itemHtml = createCartItemHtml(id, name, price, image);
             $('#minicart-list').append(itemHtml);
-            updateCartItemQuantity($('.minicart-product[data-id="' + id + '"]'), 1);
         }
         updateSubtotalAmount(price);
     }
@@ -91,21 +70,11 @@ $(document).ready(function () {
                 </div>
                 <div class="product-item_content">
                     <a class="product-item_title" href="#">${name}</a>
-                    <div class="product-item_quantity">
-                        <button class="quantity-decrease">Adet(</button>
-                        <span class="quantity-value">1</span>
-                        <button class="quantity-increase">)</button>
-                    </div>
                     <span class="product-item_price">₺${price.toFixed(2)}</span>
                     <input type="hidden" name="products[]" value="${id}">
-                    <input type="hidden" name="quantities[]" value="1">
                 </div>
             </li>
         `;
-    }
-
-    function updateCartItemQuantity(item, quantity) {
-        item.find('input[name="quantities[]"]').val(quantity);
     }
 
     function updateSubtotalAmount(price) {
