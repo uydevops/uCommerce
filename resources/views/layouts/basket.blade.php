@@ -26,6 +26,8 @@
 
 <script>
 $(document).ready(function () {
+    loadCartFromLocalStorage();  // Sayfa yüklendiğinde localStorage'dan sepeti yükle
+
     @foreach($products as $product)
     $('.add_basket-{{ $product->id }}').click(function (e) {
         e.preventDefault();
@@ -48,6 +50,7 @@ $(document).ready(function () {
         var subtotal = price;
         $(this).closest('.minicart-product').remove();
         updateSubtotalAmount(-subtotal);
+        saveCartToLocalStorage();
     });
 
     function addItemToCart(id, name, price, image) {
@@ -57,6 +60,7 @@ $(document).ready(function () {
         } else {
             var itemHtml = createCartItemHtml(id, name, price, image);
             $('#minicart-list').append(itemHtml);
+            saveCartToLocalStorage();
         }
         updateSubtotalAmount(price);
     }
@@ -84,6 +88,33 @@ $(document).ready(function () {
         }
         var newTotal = currentTotal + price;
         $('#subtotal').html('₺' + newTotal.toFixed(2));
+        saveCartToLocalStorage();
+    }
+
+    function saveCartToLocalStorage() {
+        var cartItems = [];
+        $('#minicart-list .minicart-product').each(function() {
+            var id = $(this).data('id');
+            var name = $(this).find('.product-item_title').text();
+            var price = parseFloat($(this).find('.product-item_price').text().replace('₺', '').replace(',', ''));
+            var image = $(this).find('.product-item_img img').attr('src').split('/').pop();
+            cartItems.push({ id: id, name: name, price: price, image: image });
+        });
+        var subtotal = $('#subtotal').text().replace('₺', '').replace(',', '');
+        localStorage.setItem('cart', JSON.stringify({ items: cartItems, subtotal: subtotal }));
+    }
+
+    function loadCartFromLocalStorage() {
+        var cart = localStorage.getItem('cart');
+        if (cart) {
+            var cartData = JSON.parse(cart);
+            $('#minicart-list').empty();
+            cartData.items.forEach(function(item) {
+                var itemHtml = createCartItemHtml(item.id, item.name, item.price, item.image);
+                $('#minicart-list').append(itemHtml);
+            });
+            $('#subtotal').html('₺' + parseFloat(cartData.subtotal).toFixed(2));
+        }
     }
 });
 </script>
