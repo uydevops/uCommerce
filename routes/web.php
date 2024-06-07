@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\GeneralSettingsController;
 use App\Http\Controllers\FrontendController;
 
 Route::get('/', [FrontendController::class, 'index'])->name('index');
@@ -37,6 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/profile', [DashboardController::class, 'profile'])->name('profile');
     Route::get('/dashboard/logout', [DashboardController::class, 'logout'])->name('logout');
     Route::get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
+
+
+    Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->name('settings');
+    Route::post('/dashboard/settings/update', [GeneralSettingsController::class, 'updateSettings'])->name('general-settings.update');
+
 
     /**JSON ve Analitik değerler */
     Route::post('/dashboard/add-task', [DashboardController::class, 'addTask'])->name('dashboard.add-task');

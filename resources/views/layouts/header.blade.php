@@ -1,46 +1,29 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Home One || Hiraola - Jewellery eCommerce Bootstrap 5 Template</title>
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="">
+    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="Hiraola - The best jewellery eCommerce template">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('front/assets/images/favicon.ico') }}">
 
-    <!-- CSS
-    ============================================ -->
-
-    <!-- Bootstrap CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/bootstrap.min.css') }}">
-    <!-- Fontawesome -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/font-awesome.min.css') }}">
-    <!-- Fontawesome Star -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/fontawesome-stars.css') }}">
-    <!-- Ion Icon -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/ionicons.min.css') }}">
-    <!-- Slick CSS -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/slick.min.css') }}">
-    <!-- Animation -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/animate.min.css') }}">
-    <!-- jQuery Ui -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/jquery-ui.min.css') }}">
-    <!-- Nice Select -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/nice-select.min.css') }}">
-    <!-- Timecircles -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/timecircles.min.css') }}">
-
-    <!-- Main Style CSS -->
-    <link rel="stylesheet" href="{{ asset('front/assets/css/styleversion1.css') }}">
-    <!-- <link rel="stylesheet" href="assets/css/style.min.css"> -->
-
+    <link rel="stylesheet" href="{{ asset('front/assets/css/style.min.css') }}">
 </head>
 
 <body class="template-color-1">
-
     <div class="main-wrapper">
         <header class="header-main_area">
             <div class="header-top_area">
@@ -85,8 +68,7 @@
                         <div class="col-lg-3">
                             <div class="header-logo">
                                 <a href="index.html">
-                                    <img src="{{ asset('images/logo.png') }}" alt="Hiraola's Header Logo"
-                                        style="width: 200px;">
+                                    <img src="{{ asset('images/logo.png') }}" alt="Hiraola's Header Logo" style="width: 200px;">
                                 </a>
                             </div>
                         </div>
@@ -112,8 +94,7 @@
                         <div class="col-md-4 col-sm-4 d-lg-none d-block">
                             <div class="header-logo">
                                 <a href="index.html">
-                                    <img src="{{ asset('images/logo.png') }}" alt="Hiraola's Header Logo"
-                                        style="width: 200px;">
+                                    <img src="{{ asset('images/logo.png') }}" alt="Hiraola's Header Logo" style="width: 200px;">
                                 </a>
                             </div>
                         </div>
@@ -122,7 +103,7 @@
                                 <nav>
                                     <ul>
                                         <li><a href="about-us.html">About Us</a></li>
-                                        <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a> </li>
+                                        <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a></li>
                                         <!-- other menu items removed for brevity -->
                                     </ul>
                                 </nav>
@@ -137,8 +118,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#mobileMenu"
-                                            class="mobile-menu_btn toolbar-btn color--white d-lg-none d-block">
+                                        <a href="#mobileMenu" class="mobile-menu_btn toolbar-btn color--white d-lg-none d-block">
                                             <i class="ion-navicon"></i>
                                         </a>
                                     </li>
@@ -153,13 +133,6 @@
                     </div>
                 </div>
             </div>
-            
-
-
-
- 
-
-
             <div class="mobile-menu_wrapper" id="mobileMenu">
                 <div class="offcanvas-menu-inner">
                     <div class="container">
@@ -167,14 +140,12 @@
                         <div class="offcanvas-inner_search">
                             <form action="#" class="hm-searchbox">
                                 <input type="text" placeholder="Search for item...">
-                                <button class="search_btn" type="submit"><i
-                                        class="ion-ios-search-strong"></i></button>
+                                <button class="search_btn" type="submit"><i class="ion-ios-search-strong"></i></button>
                             </form>
                         </div>
                         <nav class="offcanvas-navigation">
                             <ul class="mobile-menu">
-                                <li class="menu-item-has-children active"><a href="#"><span
-                                            class="mm-text">Home</span></a>
+                                <li class="menu-item-has-children active"><a href="#"><span class="mm-text">Home</span></a>
                                     <ul class="sub-menu">
                                         <li>
                                             <a href="index.html">
@@ -183,9 +154,9 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <!-- other menu items removed for brevity -->
                             </ul>
                         </nav>
-
                     </div>
                 </div>
             </div>

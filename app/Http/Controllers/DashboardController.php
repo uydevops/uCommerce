@@ -172,4 +172,13 @@ class DashboardController extends BaseController
 
         return view('dashboard.categories', $this->data);
     }
+
+
+    public function settings()
+    {
+        $this->data['settings'] = DB::table('general_settings')->first();
+        return view('dashboard.settings', $this->data);
+    }
+
+
 }

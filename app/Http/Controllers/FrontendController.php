@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 
 namespace App\Http\Controllers;
 
@@ -11,18 +12,25 @@ use App\Models\ProductTypes;
 use App\Models\Tasks;
 use App\Models\ProductsUnit;
 use App\Models\Categories;
+use App\Models\GeneralSettings;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth; //Bunu ekleme sebebimiz, logout işlemi yapabilmek için
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests; //Bunu ekleme sebebimiz, controller içerisinde authorize işlemleri yapabilmek için
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\CustomerGroups;
 use Illuminate\Support\Facades\Cache;
 
-class FrontendController extends Controller
+class FrontendController extends BaseController
 {
+    use AuthorizesRequests;
 
+    protected $data;
 
-
+    public function __construct()
+    {
+        $this->data = [];
+        $this->data['settings'] = GeneralSettings::find(1);
+    }
 
     public function index()
     {
@@ -33,7 +41,7 @@ class FrontendController extends Controller
 
     public function categories($slug_kategoriadi)
     {
-        $category = Categories::where('slug', $slug_kategoriadi)->first() ?? abort(403, 'Böyle bir kategori bulunamadı');
+        $category = Categories::where('slug', $slug_kategoriadi)->firstOrFail();
         $this->data['category'] = $category;
         $this->data['products'] = Products::where('category_id', $category->id)->get();
         return view('categories', $this->data);
@@ -41,20 +49,16 @@ class FrontendController extends Controller
 
     public function sepet(Request $request)
     {
-        // Gelen request'i al
         $requestData = $request->all();
-    
-        // Boş bir quantities dizisi oluştur
-        $quantities = [];
-    
-        // Her bir products öğesi için quantities dizisine 1 ekle
-        foreach ($requestData['products'] as $product) {
-            $quantities[] = 1;
-        }
-    
-        // Yeni quantities dizisini request'e ekle
+        
+        $quantities = array_fill(0, count($requestData['products']), 1);
+        
         $requestData['quantities'] = $quantities;
-     dd($requestData);
-       
+        
+        dd($requestData);
     }
 }
+
+
+
+?>
