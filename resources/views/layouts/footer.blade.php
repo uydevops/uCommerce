@@ -6,7 +6,7 @@
                     <div class="footer-widgets_info">
                         <div class="footer-widgets_logo">
                             <a href="#">
-                                <img src="{{asset('front/assets/images/footer/logo/1.png')}}" alt="Hiraola'nın Footer Logosu">
+                                <img src="{{ asset('images/'.$settings->footer_logo) }}" alt="{{ $settings->site_name }}" style="width: 200px;">
                             </a>
                         </div>
                         <div class="widget-short_desc">
@@ -18,26 +18,27 @@
                         <div class="hiraola-social_link">
                             <ul>
                                 <li class="facebook">
-                                    <a href="https://www.facebook.com" data-bs-toggle="tooltip" target="_blank" title="Facebook">
+                                    <a href="{{ $settings->facebook }}" data-bs-toggle="tooltip" target="_blank" title="Facebook">
                                         <i class="fab fa-facebook"></i>
                                     </a>
                                 </li>
                                 <li class="twitter">
-                                    <a href="https://twitter.com" data-bs-toggle="tooltip" target="_blank" title="Twitter">
+                                    <a href="{{ $settings->twitter }}" data-bs-toggle="tooltip" target="_blank" title="Twitter">
                                         <i class="fab fa-twitter-square"></i>
                                     </a>
                                 </li>
                                 <li class="google-plus">
-                                    <a href="https://www.plus.google.com/discover" data-bs-toggle="tooltip" target="_blank" title="Google Plus">
+                                    <a href="{{ $settings->google_plus }}" data-bs-toggle="tooltip" target="_blank" title="Google Plus">
                                         <i class="fab fa-google-plus"></i>
                                     </a>
                                 </li>
                                 <li class="instagram">
-                                    <a href="https://rss.com" data-bs-toggle="tooltip" target="_blank" title="Instagram">
+                                    <a href="{{ $settings->instagram }}" data-bs-toggle="tooltip" target="_blank" title="Instagram">
                                         <i class="fab fa-instagram"></i>
                                     </a>
                                 </li>
                             </ul>
+
                         </div>
                     </div>
                 </div>
@@ -64,11 +65,9 @@
                                     </div>
                                     <div class="widgets-essential_stuff">
                                         <ul>
-                                            <li class="hiraola-address"><i class="ion-ios-location"></i><span>Adres:</span> The Barn,
-                                                Ullenhall, Henley in Arden B578 5CC, İngiltere</li>
-                                            <li class="hiraola-phone"><i class="ion-ios-telephone"></i><span>Bizi
-                                                    Ara:</span> <a href="tel://+123123321345">+123 321 345</a></li>
-                                            <li class="hiraola-email"><i class="ion-android-mail"></i><span>E-posta:</span> <a href="mailto://info@yourdomain.com">info@yourdomain.com</a></li>
+                                            <li class="hiraola-address"><i class="ion-ios-location"></i><span>Adres:</span>{{ $settings->address }}</li>
+                                            <li class="hiraola-phone"><i class="ion-ios-telephone"></i><span>Bizi Ara:</span> <a href="tel:{{ $settings->phone }}">{{ $settings->phone }}</a></li>
+                                            <li class="hiraola-email"><i class="ion-android-mail"></i><span>E-posta:</span> <a href="mailto:{{ $settings->email }}">{{ $settings->email }}</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -79,7 +78,8 @@
                                         <h6>Haber Bültenine Kaydol</h6>
                                     </div>
                                     <div class="widget-short_desc">
-                                        <p>Haber bültenlerimize şimdi abone olun ve yeni koleksiyonlarla güncel kalın
+                                        <p>
+                                           {{ $settings->footer_about }}
                                         </p>
                                     </div>
                                     <div class="newsletter-form_wrap">
@@ -126,7 +126,7 @@
     </div>
 </div>
 
-</div> 
+</div>
 
 
 
@@ -160,4 +160,5 @@
 <!-- <script src="assets/js/main.min.js"></script> -->
 
 </body>
+
 </html>

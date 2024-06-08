@@ -35,7 +35,7 @@
                                     <ul>
                                         <li>
                                             <span>Telefon:</span>
-                                            <a href="callto://+123123321345">(+123) 123 321 345</a>
+                                            <a href="tel:{{ $settings->phone }}">{{ $settings->phone }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -45,13 +45,13 @@
                             <div class="ht-right_area">
                                 <div class="ht-menu">
                                     <ul>
-                                        <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li><a href="#"><i class="ion-social-googleplus"></i></a></li>
-                                        <li><a href="#"><i class="ion-social-youtube"></i></a></li>
-                                        <li><a href="#"><i class="ion-social-instagram"></i></a></li>
+                                        <li><a href="{{ $settings->facebook }}"><i class="ion-social-facebook"></i></a></li>
+                                        <li><a href="{{ $settings->twitter }}"><i class="ion-social-twitter"></i></a></li>
+                                        <li><a href="{{ $settings->google_plus }}"><i class="ion-social-googleplus"></i></a></li>
+                                        <li><a href="{{ $settings->youtube }}"><i class="ion-social-youtube"></i></a></li>
+                                        <li><a href="{{ $settings->instagram }}"><i class="ion-social-instagram"></i></a></li>
                                         <li>
-                                            <a href="tel:+123123321345" class="ht-btn ht-btn_dark">
+                                            <a href="tel:{{ $settings->phone }}" class="ht-btn ht-btn_dark">
                                                 <i class="ion-ios-telephone"></i> Hemen Ara
                                             </a>
                                         </li>
@@ -68,7 +68,7 @@
                         <div class="col-lg-3">
                             <div class="header-logo">
                                 <a href="index.html">
-                                    <img src="{{ asset('images/logo.png') }}" alt="Hiraola's Header Logo" style="width: 200px;">
+                                    <img src="{{ asset('images/'.$settings->logo) }}" alt="{{ $settings->site_name }}" style="width: 200px;">
                                 </a>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                         <div class="col-md-4 col-sm-4 d-lg-none d-block">
                             <div class="header-logo">
                                 <a href="index.html">
-                                    <img src="{{ asset('images/logo.png') }}" alt="Hiraola's Header Logo" style="width: 200px;">
+                                    <img src="{{ asset('images/'.$settings->logo) }}" alt="{{ $settings->site_name }}" style="width: 200px;">
                                 </a>
                             </div>
                         </div>

@@ -18,7 +18,9 @@
                 <span class="ammount" id="subtotal">₺0.00</span>
             </div>
             <div class="minicart-btn_area">
-                <button type="button" id="checkoutBtn" class="hiraola-btn hiraola-btn_dark hiraola-btn_fullwidth">Ödeme</button>
+                <button type="button" id="emptyCartBtn" class="hiraola-btn hiraola-btn_dark hiraola-btn_fullwidth"><i class="ion-trash-b"></i> Sepeti Boşalt</button>
+                <hr class="mb-3 mt-3">
+                <button type="button" id="checkoutBtn" class="hiraola-btn hiraola-btn_dark hiraola-btn_fullwidth"><i class="ion-forward"></i> Ödeme Yap</button>
             </div>
         </div>
     </form>
@@ -26,16 +28,12 @@
 
 <script>
 $(document).ready(function () {
-    loadCartFromLocalStorage();  // Sayfa yüklendiğinde localStorage'dan sepeti yükle
+    loadCartFromLocalStorage();
 
     @foreach($products as $product)
     $('.add_basket-{{ $product->id }}').click(function (e) {
         e.preventDefault();
-        var id = '{{ $product->id }}';
-        var name = '{{ $product->name }}';
-        var price = {{ $product->price }};
-        var image = '{{ $product->image }}';
-        addItemToCart(id, name, price, image);
+        addItemToCart('{{ $product->id }}', '{{ $product->name }}', {{ $product->price }}, '{{ $product->image }}');
     });
     @endforeach
 
@@ -44,25 +42,24 @@ $(document).ready(function () {
         $('#cartForm').submit();
     });
 
+    $('#emptyCartBtn').click(function (e) {
+        e.preventDefault();
+        emptyCart();
+    });
+
     $('#minicart-list').on('click', '.product-item_remove', function(e) {
         e.preventDefault();
-        var price = parseFloat($(this).closest('.minicart-product').find('.product-item_price').text().replace('₺', '').replace(',', ''));
-        var subtotal = price;
-        $(this).closest('.minicart-product').remove();
-        updateSubtotalAmount(-subtotal);
-        saveCartToLocalStorage();
+        removeItemFromCart($(this).closest('.minicart-product'));
     });
 
     function addItemToCart(id, name, price, image) {
-        var existingItem = $('.minicart-product[data-id="' + id + '"]');
-        if (existingItem.length > 0) {
+        if ($('.minicart-product[data-id="' + id + '"]').length > 0) {
             alert('Bu ürün zaten sepete eklenmiş.');
-        } else {
-            var itemHtml = createCartItemHtml(id, name, price, image);
-            $('#minicart-list').append(itemHtml);
-            saveCartToLocalStorage();
+            return;
         }
+        $('#minicart-list').append(createCartItemHtml(id, name, price, image));
         updateSubtotalAmount(price);
+        saveCartToLocalStorage();
     }
 
     function createCartItemHtml(id, name, price, image) {
@@ -83,38 +80,44 @@ $(document).ready(function () {
 
     function updateSubtotalAmount(price) {
         var currentTotal = parseFloat($('#subtotal').text().replace('₺', '').replace(',', ''));
-        if (isNaN(currentTotal)) {
-            currentTotal = 0;
-        }
-        var newTotal = currentTotal + price;
-        $('#subtotal').html('₺' + newTotal.toFixed(2));
-        saveCartToLocalStorage();
+        $('#subtotal').html('₺' + (currentTotal + price).toFixed(2));
     }
 
     function saveCartToLocalStorage() {
         var cartItems = [];
         $('#minicart-list .minicart-product').each(function() {
-            var id = $(this).data('id');
-            var name = $(this).find('.product-item_title').text();
-            var price = parseFloat($(this).find('.product-item_price').text().replace('₺', '').replace(',', ''));
-            var image = $(this).find('.product-item_img img').attr('src').split('/').pop();
-            cartItems.push({ id: id, name: name, price: price, image: image });
+            cartItems.push({
+                id: $(this).data('id'),
+                name: $(this).find('.product-item_title').text(),
+                price: parseFloat($(this).find('.product-item_price').text().replace('₺', '').replace(',', '')),
+                image: $(this).find('.product-item_img img').attr('src').split('/').pop()
+            });
         });
-        var subtotal = $('#subtotal').text().replace('₺', '').replace(',', '');
-        localStorage.setItem('cart', JSON.stringify({ items: cartItems, subtotal: subtotal }));
+        localStorage.setItem('cart', JSON.stringify({
+            items: cartItems,
+            subtotal: $('#subtotal').text().replace('₺', '').replace(',', '')
+        }));
     }
 
     function loadCartFromLocalStorage() {
-        var cart = localStorage.getItem('cart');
-        if (cart) {
-            var cartData = JSON.parse(cart);
-            $('#minicart-list').empty();
-            cartData.items.forEach(function(item) {
-                var itemHtml = createCartItemHtml(item.id, item.name, item.price, item.image);
-                $('#minicart-list').append(itemHtml);
-            });
-            $('#subtotal').html('₺' + parseFloat(cartData.subtotal).toFixed(2));
-        }
+        var cart = JSON.parse(localStorage.getItem('cart') || '{"items":[],"subtotal":"0.00"}');
+        cart.items.forEach(function(item) {
+            $('#minicart-list').append(createCartItemHtml(item.id, item.name, item.price, item.image));
+        });
+        $('#subtotal').html('₺' + parseFloat(cart.subtotal).toFixed(2));
+    }
+
+    function removeItemFromCart(item) {
+        var price = parseFloat(item.find('.product-item_price').text().replace('₺', '').replace(',', ''));
+        item.remove();
+        updateSubtotalAmount(-price);
+        saveCartToLocalStorage();
+    }
+
+    function emptyCart() {
+        $('#minicart-list').empty();
+        $('#subtotal').html('₺0.00');
+        saveCartToLocalStorage();
     }
 });
 </script>
