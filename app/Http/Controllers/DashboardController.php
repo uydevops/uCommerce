@@ -180,5 +180,11 @@ class DashboardController extends BaseController
         return view('dashboard.settings', $this->data);
     }
 
+    public function ads()
+    {
+        $this->data['ads'] = DB::table('ad_settings')->get();
+        return view('dashboard.ad_settings', $this->data);
+    }
 
+    
 }

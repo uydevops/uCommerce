@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\GeneralSettingsController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\AdSettingsController;
 use Illuminate\Support\Facades\Route;
 
 // Ana Sayfa ve Sepet Rotası
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/profile', [DashboardController::class, 'profile'])->name('profile');
     Route::get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
     Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->name('settings');
+    Route::get('/dashboard/products', [DashboardController::class, 'products'])->name('products');
+    Route::get('/dashboard/categories', [DashboardController::class, 'categories'])->name('categories');
 
     // Genel Ayarlar Güncelleme Rotaları
     Route::post('/dashboard/settings/update', [GeneralSettingsController::class, 'updateSettings'])->name('general-settings.update');
@@ -65,5 +68,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/categories/update', [CategoriesController::class, 'updateCategory'])->name('categories.update');
     Route::get('/dashboard/categories/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
     Route::post('/dashboard/categories/add', [CategoriesController::class, 'addCategory'])->name('categories.add');
+
+
+    //Reklam Ayarları Rotaları
+
+    Route::get('/dashboard/ads', [DashboardController::class, 'ads'])->name('ad_settings');
+    Route::post('/dashboard/ads/update', [AdSettingsController::class, 'updateAds'])->name('ads.update');
+    Route::post('/dashboard/ads/add', [AdSettingsController::class, 'addAds'])->name('ads.add');
+    Route::get('/dashboard/ads/delete/{id}', [AdSettingsController::class, 'deleteAds'])->name('ads.delete');
 });
 

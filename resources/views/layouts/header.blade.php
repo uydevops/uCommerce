@@ -113,11 +113,6 @@
                             <div class="header-right_area">
                                 <ul>
                                     <li>
-                                        <a href="wishlist.html" class="wishlist-btn">
-                                            <i class="ion-android-favorite-outline"></i>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="#mobileMenu" class="mobile-menu_btn toolbar-btn color--white d-lg-none d-block">
                                             <i class="ion-navicon"></i>
                                         </a>

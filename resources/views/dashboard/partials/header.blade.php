@@ -140,6 +140,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="{{route('settings')}}"><i class="mdi mdi-cog-outline"></i>Genel Ayarlar</a></li>
+                                <li><a href="{{route('ad_settings')}}"><i class="mdi mdi-web"></i>Reklam Ayarları</a></li>
                                 <li><a href="{{route('users')}}"><i class="mdi mdi-account-settings"></i>Kullanıcı Ayarları</a> </li>
                                 <li><a href="#"><i class="mdi mdi-bell-ring"></i>Bildirim Ayarları</a> </li>
                                 <li><a href="#"><i class="mdi mdi-account-multiple"></i>Personel Ayarları</a> </li>
@@ -147,16 +148,6 @@
                             </ul>
                         </li>
 
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="mdi mdi-account-multiple"></i>
-                                <span>Müsteriler</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="{{route('companies')}}"><i class="mdi mdi-account-plus"></i>Müsteri Listesi</a></li>
-                            </ul>
-                        </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="mdi mdi-cart"></i>
