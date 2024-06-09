@@ -21,29 +21,7 @@ class AdSettingsController extends Controller
         return $imageName;
     }
 
-    public function addAds(Request $request)
-    {
-        $sliderImage = $this->uploadImage($request->file('slider_image'));
-        $smallBannerImage = $this->uploadImage($request->file('small_banner_image'));
-        $mediumBannerImage = $this->uploadImage($request->file('medium_banner_image'));
-
-        DB::table('ad_settings')->insert([
-            'slider_title' => $request->input('slider_title'),
-            'slider_description' => $request->input('slider_description'),
-            'slider_image' => $sliderImage,
-            'small_banner_title' => $request->input('small_banner_title'),
-            'small_banner_description' => $request->input('small_banner_description'),
-            'small_banner_image' => $smallBannerImage,
-            'medium_banner_title' => $request->input('medium_banner_title'),
-            'medium_banner_description' => $request->input('medium_banner_description'),
-            'medium_banner_image' => $mediumBannerImage,
-        ]);
-
-        return redirect()->back()->with('success', 'Ad settings have been saved successfully.');
-    }
-
-
-    public function updateAds(Request $request)
+    private function saveAds($request, $update = false)
     {
         $sliderImage = $request->file('slider_image');
         $smallBannerImage = $request->file('small_banner_image');
@@ -70,10 +48,22 @@ class AdSettingsController extends Controller
             $data['medium_banner_image'] = $this->uploadImage($mediumBannerImage);
         }
 
-        DB::table('ad_settings')->where('id', 1)->update($data);
+        if ($update) {
+            DB::table('ad_settings')->where('id', 1)->update($data);
+        } else {
+            DB::table('ad_settings')->insert($data);
+        }
 
-        return redirect()->back()->with('success', 'Reklam ayarları başarıyla güncellendi.');
+        return redirect()->back()->with('success', 'Reklam ayarları başarıyla ' . ($update ? 'güncellendi.' : 'kaydedildi.'));
     }
 
+    public function addAds(Request $request)
+    {
+        return $this->saveAds($request);
+    }
 
+    public function updateAds(Request $request)
+    {
+        return $this->saveAds($request, true);
+    }
 }

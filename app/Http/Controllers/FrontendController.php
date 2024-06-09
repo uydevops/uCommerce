@@ -13,6 +13,7 @@ use App\Models\Tasks;
 use App\Models\ProductsUnit;
 use App\Models\Categories;
 use App\Models\GeneralSettings;
+use App\Models\adSettings;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -30,6 +31,7 @@ class FrontendController extends BaseController
     {
         $this->data = [];
         $this->data['settings'] = GeneralSettings::find(1);
+        $this->data['ad_settings'] = adSettings::find(1);
     }
 
     public function index()
