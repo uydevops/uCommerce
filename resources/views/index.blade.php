@@ -134,7 +134,7 @@
             <div class="col-lg-6">
                 <div class="banner-item img-hover_effect">
                     <a href="shop-left-sidebar.html">
-                        <img class="img-full" src="{{ asset('front/assets/images/banner/1_6.jpg') }}" alt="Hiraola's Banner">
+                        <img class="img-full" src="{{ asset('images/' . $ad_settings->small_banner_image_2) }}" alt="Hiraola's Banner">
                     </a>
                 </div>
             </div>

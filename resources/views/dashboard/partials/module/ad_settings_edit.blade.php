@@ -41,6 +41,11 @@
                         <input type="file" class="form-control" id="small_banner_image_{{ $ad->id }}" name="small_banner_image" onchange="previewImage('{{ $ad->id }}', 'small_banner_image')">
                         <img id="small_banner_image-preview_{{ $ad->id }}" src="{{ asset('images/' . $ad->small_banner_image) }}" alt="Küçük Banner Resmi" class="img-thumbnail mt-2" style="max-width: 200px;">
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="small_banner_image_{{ $ad->id }}">Küçük Banner 2 Resmi (575x200)</label>
+                        <input type="file" class="form-control" id="small_banner_image_{{ $ad->id }}" name="small_banner_image_2" onchange="previewImage('{{ $ad->id }}', 'small_banner_image')">
+                        <img id="small_banner_image-preview_{{ $ad->id }}" src="{{ asset('images/' . $ad->small_banner_image_2) }}" alt="Küçük Banner Resmi" class="img-thumbnail mt-2" style="max-width: 200px;">
+                    </div>
                     <hr>
                     <!-- Orta Banner Reklam Ayarları -->
                     <div class="form-group mb-3">

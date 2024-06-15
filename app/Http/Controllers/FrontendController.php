@@ -32,6 +32,7 @@ class FrontendController extends BaseController
         $this->data = [];
         $this->data['settings'] = GeneralSettings::find(1);
         $this->data['ad_settings'] = adSettings::find(1);
+        $this->data['products'] = Products::all();
     }
 
     public function index()
@@ -44,8 +45,7 @@ class FrontendController extends BaseController
     public function categories($slug_kategoriadi)
     {
         $category = Categories::where('slug', $slug_kategoriadi)->firstOrFail();
-        $this->data['category'] = $category;
-        $this->data['products'] = Products::where('category_id', $category->id)->get();
+
         return view('categories', $this->data);
     }
 
@@ -59,8 +59,17 @@ class FrontendController extends BaseController
         
         dd($requestData);
     }
+
+    public function about()
+    {
+        return view('about', $this->data);
+    }
+
+    public function contact()
+    {
+        return view('contact', $this->data);
+    }
+
 }
 
 
-
-?>

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\GeneralSettings;
+use Illuminate\Support\Facades\Storage;
 
 class GeneralSettingsController extends Controller
 {
@@ -14,15 +15,14 @@ class GeneralSettingsController extends Controller
 
     private function uploadImage($image)
     {
+        // Resmin adını ve yolunu belirle
         $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $destinationPath = public_path('images');
+        $imagePath = 'images/' . $imageName;
 
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
-        }
+        // Resmi storage'a kaydet
+        Storage::disk('public')->put($imagePath, file_get_contents($image));
 
-        $image->move($destinationPath, $imageName);
-
+        // Dosya yolunu döndür
         return $imageName;
     }
 

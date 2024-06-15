@@ -25,7 +25,9 @@ class AdSettingsController extends Controller
     {
         $sliderImage = $request->file('slider_image');
         $smallBannerImage = $request->file('small_banner_image');
+        $smallBannerImage2 = $request->file('small_banner_image_2');
         $mediumBannerImage = $request->file('medium_banner_image');
+
 
         $data = [
             'slider_title' => $request->input('slider_title'),
@@ -46,6 +48,10 @@ class AdSettingsController extends Controller
 
         if ($mediumBannerImage) {
             $data['medium_banner_image'] = $this->uploadImage($mediumBannerImage);
+        }
+
+        if ($smallBannerImage2) {
+            $data['small_banner_image_2'] = $this->uploadImage($smallBannerImage2);
         }
 
         if ($update) {

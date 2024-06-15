@@ -102,9 +102,9 @@
                             <div class="main-menu_area">
                                 <nav>
                                     <ul>
-                                        <li><a href="about-us.html">About Us</a></li>
-                                        <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a></li>
-                                        <!-- other menu items removed for brevity -->
+                                        <li><a href="{{ route('index') }}">Anasayfa</a></li>
+                                        <li><a href="{{ route('about') }}">Hakkımızda</a></li>
+                                        <li><a href="{{ route('contact') }}">İletişim</a></li>
                                     </ul>
                                 </nav>
                             </div>

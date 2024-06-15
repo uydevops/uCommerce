@@ -13,12 +13,12 @@ use Illuminate\Support\Facades\Route;
 // Ana Sayfa ve Sepet Rotası
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::post('/sepet', [FrontendController::class, 'sepet'])->name('sepet');
+Route::get('/hakkimizda', [FrontendController::class, 'about'])->name('about');
+Route::get('/iletisim', [FrontendController::class, 'contact'])->name('contact');   
 
 // Admin Giriş Sayfası ve Yönlendirme
 Route::get('/admin', [AuthController::class, 'login'])->name('login');
-Route::get('/login', function () {
-    return redirect('/');
-})->name('login');
+Route::get('/login', fn() => redirect('/'))->name('login');
 
 // Kategori Sayfası
 Route::get('kategori/{slug_kategoriadi}', [FrontendController::class, 'categories'])->name('categories');
@@ -31,50 +31,50 @@ Route::middleware('auth')->group(function () {
 
 // Dashboard İçin Oturum Gerektiren Rotalar
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard/profile', [DashboardController::class, 'profile'])->name('profile');
-    Route::get('/dashboard/users', [DashboardController::class, 'users'])->name('users');
-    Route::get('/dashboard/settings', [DashboardController::class, 'settings'])->name('settings');
-    Route::get('/dashboard/products', [DashboardController::class, 'products'])->name('products');
-    Route::get('/dashboard/categories', [DashboardController::class, 'categories'])->name('categories');
+    // Dashboard Sayfaları
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+        Route::get('/users', [DashboardController::class, 'users'])->name('users');
+        Route::get('/settings', [DashboardController::class, 'settings'])->name('settings');
+        Route::get('/products', [DashboardController::class, 'products'])->name('products');
+        Route::get('/categories', [DashboardController::class, 'categories'])->name('categories');
+        Route::get('/ads', [DashboardController::class, 'ads'])->name('ad_settings');
 
-    // Genel Ayarlar Güncelleme Rotaları
-    Route::post('/dashboard/settings/update', [GeneralSettingsController::class, 'updateSettings'])->name('general-settings.update');
+        // Genel Ayarlar Güncelleme Rotaları
+        Route::post('/settings/update', [GeneralSettingsController::class, 'updateSettings'])->name('general-settings.update');
 
-    // JSON ve Analitik Değerler
-    Route::post('/dashboard/add-task', [DashboardController::class, 'addTask'])->name('dashboard.add-task');
-    Route::post('/dashboard/delete-task', [DashboardController::class, 'deleteTask'])->name('dashboard.delete-task');
-    Route::post('/dashboard/check-task', [DashboardController::class, 'checkTask'])->name('dashboard.check-task');
-    Route::get('/dashboard/approved-companies/{id}', [DashboardController::class, 'approvedCompanies'])->name('dashboard.approved-companies');
-    Route::get('/dashboard/rejected-companies/{id}', [DashboardController::class, 'rejectedCompany'])->name('dashboard.rejected-companies');
+        // JSON ve Analitik Değerler
+        Route::post('/add-task', [DashboardController::class, 'addTask'])->name('dashboard.add-task');
+        Route::post('/delete-task', [DashboardController::class, 'deleteTask'])->name('dashboard.delete-task');
+        Route::post('/check-task', [DashboardController::class, 'checkTask'])->name('dashboard.check-task');
+        Route::get('/approved-companies/{id}', [DashboardController::class, 'approvedCompanies'])->name('dashboard.approved-companies');
+        Route::get('/rejected-companies/{id}', [DashboardController::class, 'rejectedCompany'])->name('dashboard.rejected-companies');
 
-    // Kullanıcı Ayarları Rotaları
-    Route::post('/dashboard/users/update', [UserController::class, 'updateUser'])->name('users.update');
-    Route::get('/dashboard/users/delete/{id}', [UserController::class, 'deleteUser'])->name('users.delete');
-    Route::post('/dashboard/users/add', [UserController::class, 'addUser'])->name('users.add');
+        // Kullanıcı Ayarları Rotaları
+        Route::post('/users/update', [UserController::class, 'updateUser'])->name('users.update');
+        Route::get('/users/delete/{id}', [UserController::class, 'deleteUser'])->name('users.delete');
+        Route::post('/users/add', [UserController::class, 'addUser'])->name('users.add');
 
-    // Şirket Ayarları Rotaları
-    Route::post('/dashboard/companies/update', [CompaniesController::class, 'updateCompany'])->name('companies.update');
-    Route::get('/dashboard/companies/delete/{id}', [CompaniesController::class, 'deleteCompany'])->name('companies.delete');
-    Route::post('/dashboard/companies/add', [CompaniesController::class, 'addCompany'])->name('companies.add');
+        // Şirket Ayarları Rotaları
+        Route::post('/companies/update', [CompaniesController::class, 'updateCompany'])->name('companies.update');
+        Route::get('/companies/delete/{id}', [CompaniesController::class, 'deleteCompany'])->name('companies.delete');
+        Route::post('/companies/add', [CompaniesController::class, 'addCompany'])->name('companies.add');
 
-    // Ürün Ayarları Rotaları
-    Route::post('/dashboard/products/update', [ProductsController::class, 'updateProduct'])->name('products.update');
-    Route::get('/dashboard/products/delete/{id}', [ProductsController::class, 'deleteProduct'])->name('products.delete');
-    Route::post('/dashboard/products/add', [ProductsController::class, 'addProduct'])->name('products.add');
-    Route::get('/dashboard/products/show/{id}', [ProductsController::class, 'showProduct'])->name('products.show');
+        // Ürün Ayarları Rotaları
+        Route::post('/products/update', [ProductsController::class, 'updateProduct'])->name('products.update');
+        Route::get('/products/delete/{id}', [ProductsController::class, 'deleteProduct'])->name('products.delete');
+        Route::post('/products/add', [ProductsController::class, 'addProduct'])->name('products.add');
+        Route::get('/products/show/{id}', [ProductsController::class, 'showProduct'])->name('products.show');
 
-    // Kategori Ayarları Rotaları
-    Route::post('/dashboard/categories/update', [CategoriesController::class, 'updateCategory'])->name('categories.update');
-    Route::get('/dashboard/categories/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
-    Route::post('/dashboard/categories/add', [CategoriesController::class, 'addCategory'])->name('categories.add');
+        // Kategori Ayarları Rotaları
+        Route::post('/categories/update', [CategoriesController::class, 'updateCategory'])->name('categories.update');
+        Route::get('/categories/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
+        Route::post('/categories/add', [CategoriesController::class, 'addCategory'])->name('categories.add');
 
-
-    //Reklam Ayarları Rotaları
-
-    Route::get('/dashboard/ads', [DashboardController::class, 'ads'])->name('ad_settings');
-    Route::post('/dashboard/ads/update', [AdSettingsController::class, 'updateAds'])->name('ads.update');
-    Route::post('/dashboard/ads/add', [AdSettingsController::class, 'addAds'])->name('ads.add');
-    Route::get('/dashboard/ads/delete/{id}', [AdSettingsController::class, 'deleteAds'])->name('ads.delete');
+        // Reklam Ayarları Rotaları
+        Route::post('/ads/update', [AdSettingsController::class, 'updateAds'])->name('ads.update');
+        Route::post('/ads/add', [AdSettingsController::class, 'addAds'])->name('ads.add');
+        Route::get('/ads/delete/{id}', [AdSettingsController::class, 'deleteAds'])->name('ads.delete');
+    });
 });
-
