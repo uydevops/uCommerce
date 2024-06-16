@@ -69,12 +69,11 @@
                                         </a>
                                     </div>
                                     <div class="hiraola-product_content">
-                                        <div class="product-desc_info">
-                                            <h6><a class="product-name" href="">{{ $product->name }}</a>
-                                            </h6>
-                                            <div class="price-box">
-                                                <span class="new-price">₺{{ $product->price }}</span>
-                                            </div>
+                                    <div class="product-desc_info">
+                                        <h6><a class="product-name" href="single-product.html">{{ $product->name }}</a></h6>
+                                        <div class="price-box">
+                                            <span class="new-price">₺{{ $product->price }}</span>
+                                        </div>
                                             <div class="additional-add_action">
                                                 <ul>
                                                     <!----add basket---->
@@ -145,7 +144,7 @@
 
 <style>
     .static-banner_area .static-banner-image {
-        background-image: url('{{ asset('images/' . $ad_settings->medium_banner_image) }}');
+        background-image: url('{{ asset(' images/' . $ad_settings->medium_banner_image) }}');
         background-size: cover;
         min-height: 345px;
         background-repeat: no-repeat;
@@ -154,7 +153,7 @@
     }
 
     .static-banner_area .static-banner-image.static-banner-image-2 {
-        background-image: url('{{ asset('images/' . $ad_settings->small_banner_image) }}');
+        background-image: url('{{ asset(' images/' . $ad_settings->small_banner_image) }}');
     }
 </style>
 

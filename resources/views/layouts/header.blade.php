@@ -105,6 +105,7 @@
                                         <li><a href="{{ route('index') }}">Anasayfa</a></li>
                                         <li><a href="{{ route('about') }}">Hakkımızda</a></li>
                                         <li><a href="{{ route('contact') }}">İletişim</a></li>
+                                        <li><a href="{{ route('page.products') }}">Ürünler</a></li>
                                     </ul>
                                 </nav>
                             </div>

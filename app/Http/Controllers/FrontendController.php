@@ -67,7 +67,12 @@ class FrontendController extends BaseController
 
     public function contact()
     {
-        return view('contact', $this->data);
+        return view('contacts', $this->data);
+    }
+
+    public function products()
+    {
+        return view('products', $this->data);
     }
 
 }
