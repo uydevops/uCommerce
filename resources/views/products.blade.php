@@ -34,13 +34,6 @@
                                         <img class="primary-img" src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
                                         <img class="secondary-img" src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
                                     </a>
-                                    <div class="add-actions">
-                                        <ul>
-                                            <li><a class="hiraola-add_cart" href="cart.html" data-bs-toggle="tooltip" data-placement="top" title="Add To Cart"><i class="ion-bag"></i></a></li>
-                                            <li><a class="hiraola-add_compare" href="compare.html" data-bs-toggle="tooltip" data-placement="top" title="Compare This Product"><i class="ion-ios-shuffle-strong"></i></a></li>
-                                            <li class="quick-view-btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><a href="javascript:void(0)" data-bs-toggle="tooltip" data-placement="top" title="Quick View"><i class="ion-eye"></i></a></li>
-                                        </ul>
-                                    </div>
                                 </div>
                                 <div class="hiraola-product_content">
                                     <div class="product-desc_info">

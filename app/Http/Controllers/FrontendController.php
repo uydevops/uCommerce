@@ -75,6 +75,15 @@ class FrontendController extends BaseController
         return view('products', $this->data);
     }
 
+    public function productDetail($slug_urunadi)
+    {
+        $product = Products::where('slug', $slug_urunadi)->firstOrFail();
+        $this->data['product'] = $product;
+        return view('product_detail', $this->data);
+    }
+
+    
+
 }
 
 

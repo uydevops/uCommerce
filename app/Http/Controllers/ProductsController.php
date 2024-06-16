@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -115,6 +118,7 @@ class ProductsController extends Controller
     {
         return [
             'name' => $request->input('name'),
+            'slug' => Str::slug($request->input('name')),
             'price' => $request->input('price'),
             'product_details' => $request->input('product_description'),
             'type_id' => $request->input('type_id'),
@@ -126,4 +130,6 @@ class ProductsController extends Controller
             'category_id' => $request->input('category_id') ?? 0,
         ];
     }
+
+
 }

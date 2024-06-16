@@ -67,7 +67,7 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="header-logo">
-                                <a href="index.html">
+                                <a href="{{route('index')}}">
                                     <img src="{{ asset('images/'.$settings->logo) }}" alt="{{ $settings->site_name }}" style="width: 200px;">
                                 </a>
                             </div>
