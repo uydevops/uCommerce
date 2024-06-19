@@ -1,5 +1,7 @@
 @include('dashboard.partials.header')
 @include('dashboard.partials.module.products_add_modal')
+@include('dashboard.partials.module.products_edit_modal')
+
 <div class="main-content">
     <div class="page-content">
         <div class="container-fluid">
@@ -65,7 +67,6 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                        @include('dashboard.partials.module.products_edit_modal', ['product' => $product, 'categories' => $categories])
                                         @endforeach
                                     </tbody>
                                 </table>

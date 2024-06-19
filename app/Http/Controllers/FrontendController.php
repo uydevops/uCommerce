@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 namespace App\Http\Controllers;
@@ -33,11 +33,12 @@ class FrontendController extends BaseController
         $this->data['settings'] = GeneralSettings::find(1);
         $this->data['ad_settings'] = adSettings::find(1);
         $this->data['products'] = Products::all();
+        $this->data['categories'] = Categories::where('parent_id', 0)->orWhere('parent_id', null)->get();
+
     }
 
     public function index()
     {
-        $this->data['categories'] = Categories::where('parent_id', 0)->get();
         $this->data['products'] = Products::where('active', 1)->orderBy('id', 'desc')->get();
         return view('index', $this->data);
     }
@@ -52,11 +53,11 @@ class FrontendController extends BaseController
     public function sepet(Request $request)
     {
         $requestData = $request->all();
-        
+
         $quantities = array_fill(0, count($requestData['products']), 1);
-        
+
         $requestData['quantities'] = $quantities;
-        
+
         dd($requestData);
     }
 
@@ -78,12 +79,22 @@ class FrontendController extends BaseController
     public function productDetail($slug_urunadi)
     {
         $product = Products::where('slug', $slug_urunadi)->firstOrFail();
+
         $this->data['product'] = $product;
-        return view('product_detail', $this->data);
+
+        $this->data['product_gallery'] = DB::table('sma_products_gallery')->where('product_id', $product->id)->get();
+
+        $this->data['sizes'] = DB::table('sma_product_types')
+        ->where('product_id', $product->id)
+        ->where(function($query) {
+            $query->where('s', '!=', 0)->whereNotNull('s')
+                  ->orWhere('m', '!=', 0)->whereNotNull('m')
+                  ->orWhere('l', '!=', 0)->whereNotNull('l')
+                  ->orWhere('xl', '!=', 0)->whereNotNull('xl')
+                  ->orWhere('xxl', '!=', 0)->whereNotNull('xxl');
+        })
+        ->get();
+
+        return view('products_details', $this->data);
     }
-
-    
-
 }
-
-

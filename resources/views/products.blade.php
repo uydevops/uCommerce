@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="hiraola-product_content">
                                     <div class="product-desc_info">
-                                        <h6><a class="product-name" href="single-product.html">{{ $product->name }}</a></h6>
+                                        <h6><a class="product-name" href="{{route('page.product.detail', $product->slug)}}">{{ $product->name }}</a></h6>
                                         <div class="price-box">
                                             <span class="new-price">₺{{ $product->price }}</span>
                                         </div>
