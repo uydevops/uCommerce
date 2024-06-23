@@ -1,4 +1,4 @@
-# Proje Adı
+# uCommerce
 
 Bu proje, Altf4 Yazılım Firması'nda geliştirilen açık kaynak kodlu bir e-ticaret uygulamasıdır. Proje, stajyer öğrencilerin katkılarıyla geliştirilmektedir ve destek geliştiricisi olarak Uğurcan Yaş görev almaktadır.
 
