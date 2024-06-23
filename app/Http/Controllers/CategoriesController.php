@@ -14,6 +14,9 @@ class CategoriesController extends Controller
         return view('categories');
     }
 
+
+    
+
     private function uploadImage($image)
     {
         $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -45,7 +48,6 @@ class CategoriesController extends Controller
     public function deleteCategory($id)
     {
         $category = Category::findOrFail($id);
-        $this->deleteCategoryImage($category->image);
         $category->delete();
 
         return redirect()->back()->with('success', 'Kategori başarıyla silindi');
@@ -62,13 +64,6 @@ class CategoriesController extends Controller
         ];
     }
 
-    private function deleteCategoryImage($imageName)
-    {
-        $imagePath = public_path('images/' . $imageName);
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
-        }
-    }
 
     public function updateCategory(Request $request)
     {

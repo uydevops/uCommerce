@@ -1,5 +1,5 @@
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Ürün Oluştur</h5>
@@ -35,7 +35,7 @@
 
                             <div class="mb-3">
                                 <label for="productStock" class="form-label ">Stok Miktarı</label>
-                                <input type="number" class="form-control" name="quantitiy" value="" required>
+                                <input type="number" class="form-control" name="quantity" value="" required>
                             </div>
 
 
@@ -44,30 +44,31 @@
                                 <input type="number" class="form-control"  id="priceFormat" name="price" value="" required>
                             </div>
 
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">S Adet</label>
+                                <input type="text" class="form-control" name="s" value="" required>
+                            </div>
 
                             <div class="mb-3">
-                                <label for="productCategory" class="form-label">Beden Ölçüleri</label>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="size[]" value="s" id="sizeS">
-                                    <label class="form-check-label" for="sizeS">S</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="size[]" value="m" id="sizeM">
-                                    <label class="form-check-label" for="sizeM">M</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="size[]" value="l" id="sizeL">
-                                    <label class="form-check-label" for="sizeL">L</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="size[]" value="xl" id="sizeXL">
-                                    <label class="form-check-label" for="sizeXL">XL</label>
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="size[]" value="xxl" id="sizeXXL">
-                                    <label class="form-check-label" for="sizeXXL">XXL</label>
-                                </div>
+                                <label for="productName" class="form-label">M Adet </label>
+                                <input type="text" class="form-control" name="m" value="" required>
                             </div>
+
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">L Adet </label>
+                                <input type="text" class="form-control" name="l" value="" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">XL Adet </label>
+                                <input type="text" class="form-control" name="xl" value="" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">XXL Adet </label>
+                                <input type="text" class="form-control" name="xxl" value="" required>
+                            </div>
+           
 
                             <div class="mb-3">
                                 <label for="productImage" class="form-label">Ürün Fotoğrafı(Kapak)</label>

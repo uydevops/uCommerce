@@ -34,7 +34,6 @@ class FrontendController extends BaseController
         $this->data['ad_settings'] = adSettings::find(1);
         $this->data['products'] = Products::all();
         $this->data['categories'] = Categories::where('parent_id', 0)->orWhere('parent_id', null)->get();
-
     }
 
     public function index()
@@ -83,17 +82,30 @@ class FrontendController extends BaseController
         $this->data['product'] = $product;
 
         $this->data['product_gallery'] = DB::table('sma_products_gallery')->where('product_id', $product->id)->get();
+        $sizes = DB::table('sma_product_types')
+            ->select('id', 'product_id', 's', 'm', 'l', 'xl', 'xxl')
+            ->where('product_id', $product->id)
+            ->where(function ($query) {
+                $query->where('s', '!=', 0)
+                    ->orWhere('m', '!=', 0)
+                    ->orWhere('l', '!=', 0)
+                    ->orWhere('xl', '!=', 0)
+                    ->orWhere('xxl', '!=', 0);
+            })
+            ->get();
 
-        $this->data['sizes'] = DB::table('sma_product_types')
-        ->where('product_id', $product->id)
-        ->where(function($query) {
-            $query->where('s', '!=', 0)->whereNotNull('s')
-                  ->orWhere('m', '!=', 0)->whereNotNull('m')
-                  ->orWhere('l', '!=', 0)->whereNotNull('l')
-                  ->orWhere('xl', '!=', 0)->whereNotNull('xl')
-                  ->orWhere('xxl', '!=', 0)->whereNotNull('xxl');
-        })
-        ->get();
+        $this->data['sizes'] = $sizes->map(function ($item) {
+            return collect($item)->filter(function ($value, $key) {
+                return $value !== 0 || in_array($key, ['id', 'product_id']);
+            });
+        });
+
+
+
+        //category
+
+        $this->data['category'] = Categories::where('id', $product->category_id)->first();
+
 
         return view('products_details', $this->data);
     }

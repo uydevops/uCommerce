@@ -31,14 +31,6 @@
                     <div class="row">
                         <div class="col-lg-5">
                             <div class="ht-left_area">
-                                <div class="header-shipping_area">
-                                    <ul>
-                                        <li>
-                                            <span>Telefon:</span>
-                                            <a href="tel:{{ $settings->phone }}">{{ $settings->phone }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                         <div class="col-lg-7">
