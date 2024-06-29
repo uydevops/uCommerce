@@ -26,6 +26,7 @@
                                     <th class="cart-product-name">Ürün</th>
                                     <th class="hiraola-product-price">Birim Fiyat</th>
                                     <th class="hiraola-product-quantity">Adet</th>
+                                    <th class="hiraola-product-size">Beden</th>
                                     <th class="hiraola-product-subtotal">Toplam</th>
                                 </tr>
                             </thead>
@@ -39,7 +40,7 @@
                                         </td>
                                         <td class="hiraola-product-thumbnail">
                                             <a href="javascript:void(0)">
-                                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}"  style="width: 100px; height: 100px;">
+                                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: 100px;">
                                             </a>
                                         </td>
                                         <td class="hiraola-product-name">
@@ -55,6 +56,15 @@
                                                 <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
                                                 <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                             </div>
+                                        </td>
+                                        <td class="hiraola-product-size">
+                                            <select class="form-control product-size">
+                                                <option value="S">S</option>
+                                                <option value="M">M</option>
+                                                <option value="L">L</option>
+                                                <option value="XL">XL</option>
+                                                <option value="XXL">XXL</option>
+                                            </select>
                                         </td>
                                         <td class="product-subtotal">
                                             <span class="amount">{{ number_format($product->price, 2, ',', '.') }} TL</span>
@@ -150,3 +160,4 @@
         updateCartTotal();
     });
 </script>
+
