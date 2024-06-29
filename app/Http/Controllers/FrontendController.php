@@ -100,13 +100,17 @@ class FrontendController extends BaseController
             });
         });
 
-
-
-        //category
-
         $this->data['category'] = Categories::where('id', $product->category_id)->first();
 
 
         return view('products_details', $this->data);
+    }
+
+    public function basket(Request $request)
+    {
+        $requestData = $request->all();
+
+        
+        return view('basket', $this->data);
     }
 }

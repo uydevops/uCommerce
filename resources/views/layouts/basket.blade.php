@@ -4,7 +4,7 @@
   crossorigin="anonymous"></script>
 
 <div class="offcanvas-minicart_wrapper" id="miniCart">
-    <form id="cartForm" action="{{route('sepet')}}" method="POST">
+    <form id="cartForm" action="{{route('basket')}}" method="POST">
         @csrf
         <div class="offcanvas-menu-inner">
             <a href="#" class="btn-close"><i class="ion-android-close"></i></a>
