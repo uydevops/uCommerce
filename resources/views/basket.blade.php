@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form action="javascript:void(0)">
+                <form id="cart-form" action="javascript:void(0)">
                     <div class="table-content table-responsive">
                         <table class="table">
                             <thead>
@@ -32,29 +32,26 @@
                             </thead>
                             <tbody>
                                 @foreach ($productInformation as $product)
-                                    <tr>
+                                    <tr data-product-id="{{ $product->id }}">
                                         <td class="hiraola-product-remove">
-                                            <a href="javascript:void(0)" class="remove-product" data-product-id="{{ $product->id }}">
-                                                <i class="fa fa-trash" title="Kaldır"></i>
-                                            </a>
+                                            <button type="button" class="remove-product btn btn-link text-danger" aria-label="Remove" title="Kaldır">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                         </td>
                                         <td class="hiraola-product-thumbnail">
-                                            <a href="javascript:void(0)">
-                                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: 100px;">
-                                            </a>
+                                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: 100px;">
                                         </td>
                                         <td class="hiraola-product-name">
-                                            <a href="javascript:void(0)">{{ $product->name }}</a>
+                                            {{ $product->name }}
                                         </td>
                                         <td class="hiraola-product-price">
                                             <span class="amount">{{ number_format($product->price, 2, ',', '.') }} TL</span>
                                         </td>
                                         <td class="quantity">
-                                            <label>Adet</label>
                                             <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" value="1" type="text">
-                                                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                                <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                                <button type="button" class="dec qtybutton btn btn-link"><i class="fa fa-angle-down"></i></button>
+                                                <input class="cart-plus-minus-box form-control" value="1" type="text">
+                                                <button type="button" class="inc qtybutton btn btn-link"><i class="fa fa-angle-up"></i></button>
                                             </div>
                                         </td>
                                         <td class="hiraola-product-size">
@@ -79,10 +76,10 @@
                             <div class="cart-page-total">
                                 <h2>Sepet Toplamları</h2>
                                 <ul>
-                                    <li>Ara Toplam <span>0,00 TL</span></li>
-                                    <li>Toplam <span>0,00 TL</span></li>
+                                    <li>Ara Toplam <span class="cart-subtotal">0,00 TL</span></li>
+                                    <li>Toplam <span class="cart-total">0,00 TL</span></li>
                                 </ul>
-                                <a href="javascript:void(0)">Ödeme Sayfasına Git</a>
+                                <a href="javascript:void(0)" class="btn btn-primary btn-block">Ödeme Sayfasına Git</a>
                             </div>
                         </div>
                     </div>
@@ -96,46 +93,36 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Event listener for removing products
-        const removeButtons = document.querySelectorAll('.remove-product');
-        removeButtons.forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const productId = button.getAttribute('data-product-id');
-                const row = button.closest('tr');
-                row.remove();
-                updateCartTotal();
-                // You can add additional logic here to update server-side or local storage
-            });
-        });
+        const cartForm = document.getElementById('cart-form');
+        const cartSubtotal = document.querySelector('.cart-subtotal');
+        const cartTotal = document.querySelector('.cart-total');
 
-        // Event listener for increasing quantity
-        const incButtons = document.querySelectorAll('.inc');
-        incButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const quantityInput = button.parentElement.querySelector('.cart-plus-minus-box');
+        cartForm.addEventListener('click', function(event) {
+            const target = event.target;
+
+            if (target.classList.contains('remove-product')) {
+                const productId = target.closest('tr').getAttribute('data-product-id');
+                target.closest('tr').remove();
+                updateCartTotals();
+            }
+
+            if (target.classList.contains('qtybutton')) {
+                const tr = target.closest('tr');
+                const quantityInput = tr.querySelector('.cart-plus-minus-box');
                 let quantity = parseInt(quantityInput.value);
-                quantity++;
+
+                if (target.classList.contains('inc')) {
+                    quantity++;
+                } else if (target.classList.contains('dec')) {
+                    quantity = quantity > 1 ? quantity - 1 : 1;
+                }
+
                 quantityInput.value = quantity;
-                updateSubtotal(button.closest('tr'));
-                updateCartTotal();
-            });
+                updateSubtotal(tr);
+                updateCartTotals();
+            }
         });
 
-        // Event listener for decreasing quantity
-        const decButtons = document.querySelectorAll('.dec');
-        decButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const quantityInput = button.parentElement.querySelector('.cart-plus-minus-box');
-                let quantity = parseInt(quantityInput.value);
-                quantity = quantity > 1 ? quantity - 1 : 1;
-                quantityInput.value = quantity;
-                updateSubtotal(button.closest('tr'));
-                updateCartTotal();
-            });
-        });
-
-        // Update subtotal for a row
         function updateSubtotal(row) {
             const price = parseFloat(row.querySelector('.hiraola-product-price .amount').textContent.replace(' TL', '').replace(',', '.'));
             const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value);
@@ -143,21 +130,18 @@
             subtotal.textContent = (price * quantity).toFixed(2).replace('.', ',') + ' TL';
         }
 
-        // Update total cart amount
-        function updateCartTotal() {
+        function updateCartTotals() {
             const cartRows = document.querySelectorAll('tbody tr');
-            let total = 0;
+            let subtotal = 0;
+
             cartRows.forEach(row => {
-                const subtotal = parseFloat(row.querySelector('.product-subtotal .amount').textContent.replace(' TL', '').replace(',', '.'));
-                total += subtotal;
+                const price = parseFloat(row.querySelector('.hiraola-product-price .amount').textContent.replace(' TL', '').replace(',', '.'));
+                const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value);
+                subtotal += price * quantity;
             });
 
-            document.querySelector('.cart-page-total li:first-child span').textContent = total.toFixed(2).replace('.', ',') + ' TL';
-            document.querySelector('.cart-page-total li:last-child span').textContent = total.toFixed(2).replace('.', ',') + ' TL';
+            cartSubtotal.textContent = subtotal.toFixed(2).replace('.', ',') + ' TL';
+            cartTotal.textContent = subtotal.toFixed(2).replace('.', ',') + ' TL';
         }
-
-        // Initial update of total cart amount on page load
-        updateCartTotal();
     });
 </script>
-

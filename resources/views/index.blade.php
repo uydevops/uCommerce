@@ -12,7 +12,7 @@
                     <div id="cate-toggle" class="category-menu-list">
                         @foreach ($categories as $category)
                         <ul>
-                            <li><a href="{{ route('categories', $category->slug) }}">{{ $category->name }}</a></li>
+                            <li><a href="{{ route('page.products', $category->slug) }}">{{ $category->name }}</a></li>
                         </ul>
                         @endforeach
                     </div>

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/hakkimizda', [FrontendController::class, 'about'])->name('about');
 Route::get('/iletisim', [FrontendController::class, 'contact'])->name('contact');   
-Route::get('/urunler', [FrontendController::class, 'products'])->name('page.products');
+Route::get('/urunler/{slug_kategoriadi?}', [FrontendController::class, 'products'])->name('page.products');
 Route::get('/urun/{slug_urunadi}', [FrontendController::class, 'productDetail'])->name('page.product.detail');
 Route::post('/sepet', [FrontendController::class, 'basket'])->name('basket');
 Route::get('/odeme', [FrontendController::class, 'payment'])->name('payment');

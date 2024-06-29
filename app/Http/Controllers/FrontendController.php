@@ -70,8 +70,14 @@ class FrontendController extends BaseController
         return view('contacts', $this->data);
     }
 
-    public function products()
+    public function products($categories = null)
     {
+        $this->data['products'] = !empty($categories)
+            ? Products::whereHas('category', function ($query) use ($categories) {
+                $query->where('slug', $categories);
+            })->get()
+            : Products::all();
+
         return view('products', $this->data);
     }
 
@@ -109,15 +115,14 @@ class FrontendController extends BaseController
     public function basket(Request $request)
     {
         $productIds = $request->input('products', []);
-        
+
         $this->data['productInformation'] = Products::whereIn('id', $productIds)->get();
 
-        
+
         return view('basket', $this->data);
     }
     public function payment()
     {
         return view('checkout', $this->data);
-        
     }
 }
