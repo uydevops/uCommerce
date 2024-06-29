@@ -17,6 +17,7 @@ Route::get('/iletisim', [FrontendController::class, 'contact'])->name('contact')
 Route::get('/urunler', [FrontendController::class, 'products'])->name('page.products');
 Route::get('/urun/{slug_urunadi}', [FrontendController::class, 'productDetail'])->name('page.product.detail');
 Route::post('/sepet', [FrontendController::class, 'basket'])->name('basket');
+Route::get('/odeme', [FrontendController::class, 'payment'])->name('payment');
 
 // Admin Giriş Sayfası ve Yönlendirme
 Route::get('/admin', [AuthController::class, 'login'])->name('login');

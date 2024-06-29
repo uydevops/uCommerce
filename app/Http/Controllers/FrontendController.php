@@ -115,4 +115,9 @@ class FrontendController extends BaseController
         
         return view('basket', $this->data);
     }
+    public function payment()
+    {
+        return view('checkout', $this->data);
+        
+    }
 }
