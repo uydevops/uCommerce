@@ -110,10 +110,9 @@ class FrontendController extends BaseController
     {
         $productIds = $request->input('products', []);
         
-        $productInformation = Products::whereIn('id', $productIds)->get();
+        $this->data['productInformation'] = Products::whereIn('id', $productIds)->get();
 
-        dd($productInformation);
         
-        return view('basket', ['productInformation' => $productInformation]);
+        return view('basket', $this->data);
     }
 }
