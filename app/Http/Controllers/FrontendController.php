@@ -108,9 +108,12 @@ class FrontendController extends BaseController
 
     public function basket(Request $request)
     {
-        $requestData = $request->all();
-
+        $productIds = $request->input('products', []);
         
-        return view('basket', $this->data);
+        $productInformation = Products::whereIn('id', $productIds)->get();
+
+        dd($productInformation);
+        
+        return view('basket', ['productInformation' => $productInformation]);
     }
 }
