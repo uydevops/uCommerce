@@ -17,14 +17,6 @@ Bu proje, bir e-ticaret platformu oluşturmayı amaçlayan açık kaynak kodlu b
 
 Proje, PHP tabanlı Laravel framework'ü kullanılarak geliştirilmektedir. Veritabanı olarak MySQL kullanılmaktadır. Frontend tarafında HTML, CSS ve JavaScript teknolojileri kullanılmaktadır.
 
-## Katkıda Bulunma
-
-Eğer projeye katkıda bulunmak istiyorsanız, lütfen [CONTRIBUTING.md](CONTRIBUTING.md) dosyasını inceleyin ve katkılarınızı yapın.
-
-## Lisans
-
-Bu proje MIT Lisansı altında lisanslanmıştır. Detaylı bilgi için [LICENSE.md](LICENSE.md) dosyasını inceleyin.
-
 ## Not
 
 Bu proje, profesyonel bir proje değildir. Öğrenme ve deneme amaçlı geliştirilmektedir. Her türlü geri bildirim ve katkıya açıktır.
