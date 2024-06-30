@@ -16,7 +16,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form id="cart-form" action="javascript:void(0)">
+                <form action="{{ route('payment') }}" method="POST">
+                    @csrf
                     <div class="table-content table-responsive">
                         <table class="table">
                             <thead>
@@ -31,40 +32,42 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($productInformation as $product)
-                                    <tr data-product-id="{{ $product->id }}">
+                                @foreach ($products as $product)
+                                    <tr>
                                         <td class="hiraola-product-remove">
-                                            <button type="button" class="remove-product btn btn-link text-danger" aria-label="Remove" title="Kaldır">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                            <a href="#" class="remove-product" data-product-id="{{ $product->id }}">
+                                                <i class="fa fa-trash" title="Kaldır"></i>
+                                            </a>
                                         </td>
                                         <td class="hiraola-product-thumbnail">
                                             <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: 100px;">
                                         </td>
                                         <td class="hiraola-product-name">
                                             {{ $product->name }}
+                                            <input type="hidden" name="products[{{ $loop->index }}][id]" value="{{ $product->id }}">
                                         </td>
                                         <td class="hiraola-product-price">
-                                            <span class="amount">{{ number_format($product->price, 2, ',', '.') }} TL</span>
+                                            {{ number_format($product->price, 2, ',', '.') }} TL
+                                            <input type="hidden" name="products[{{ $loop->index }}][price]" value="{{ $product->price }}">
                                         </td>
                                         <td class="quantity">
-                                            <div class="cart-plus-minus">
-                                                <button type="button" class="dec qtybutton btn btn-link"><i class="fa fa-angle-down"></i></button>
-                                                <input class="cart-plus-minus-box form-control" value="1" type="text">
-                                                <button type="button" class="inc qtybutton btn btn-link"><i class="fa fa-angle-up"></i></button>
+                                            <div class="hiraola-product-price">
+                                                <input value="1" type="text" name="products[{{ $loop->index }}][quantity]" class="form-control cart-plus-minus-box">
                                             </div>
                                         </td>
                                         <td class="hiraola-product-size">
-                                            <select class="form-control product-size">
-                                                <option value="S">S</option>
-                                                <option value="M">M</option>
-                                                <option value="L">L</option>
-                                                <option value="XL">XL</option>
-                                                <option value="XXL">XXL</option>
+                                            <select class="form-control product-size" name="products[{{ $loop->index }}][size]">
+                                                @foreach($sizes->where('product_id', $product->id) as $size)
+                                                    @foreach($size as $key => $value)
+                                                        @if($key !== 'id' && $key !== 'product_id' && $value !== 0)
+                                                            <option value="{{ $key }}">{{ strtoupper($key) }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
                                             </select>
                                         </td>
                                         <td class="product-subtotal">
-                                            <span class="amount">{{ number_format($product->price, 2, ',', '.') }} TL</span>
+                                            {{ number_format($product->price, 2, ',', '.') }} TL
                                         </td>
                                     </tr>
                                 @endforeach
@@ -79,7 +82,7 @@
                                     <li>Ara Toplam <span class="cart-subtotal">0,00 TL</span></li>
                                     <li>Toplam <span class="cart-total">0,00 TL</span></li>
                                 </ul>
-                                <a href="javascript:void(0)" class="btn btn-primary btn-block">Ödeme Sayfasına Git</a>
+                                <button id="odemeBtn" type="submit" class="btn btn-primary">Ödeme Sayfasına Git</a>
                             </div>
                         </div>
                     </div>
@@ -91,57 +94,56 @@
 
 @include('layouts.footer')
 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const cartForm = document.getElementById('cart-form');
-        const cartSubtotal = document.querySelector('.cart-subtotal');
-        const cartTotal = document.querySelector('.cart-total');
-
-        cartForm.addEventListener('click', function(event) {
-            const target = event.target;
-
-            if (target.classList.contains('remove-product')) {
-                const productId = target.closest('tr').getAttribute('data-product-id');
-                target.closest('tr').remove();
-                updateCartTotals();
-            }
-
-            if (target.classList.contains('qtybutton')) {
-                const tr = target.closest('tr');
-                const quantityInput = tr.querySelector('.cart-plus-minus-box');
-                let quantity = parseInt(quantityInput.value);
-
-                if (target.classList.contains('inc')) {
-                    quantity++;
-                } else if (target.classList.contains('dec')) {
-                    quantity = quantity > 1 ? quantity - 1 : 1;
-                }
-
-                quantityInput.value = quantity;
-                updateSubtotal(tr);
-                updateCartTotals();
-            }
+    $(document).ready(function() {
+        // Remove product from cart
+        $('.remove-product').on('click', function(e) {
+            e.preventDefault();
+            $(this).closest('tr').remove();
+            updateCartTotal();
         });
 
-        function updateSubtotal(row) {
-            const price = parseFloat(row.querySelector('.hiraola-product-price .amount').textContent.replace(' TL', '').replace(',', '.'));
-            const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value);
-            const subtotal = row.querySelector('.product-subtotal .amount');
-            subtotal.textContent = (price * quantity).toFixed(2).replace('.', ',') + ' TL';
-        }
+        // Update subtotal and total
+        $('.cart-plus-minus-box').on('input', function() {
+            updateSubtotal($(this).closest('tr'));
+            updateCartTotal();
+        });
 
-        function updateCartTotals() {
-            const cartRows = document.querySelectorAll('tbody tr');
+        // Initial total update
+        function updateCartTotal() {
             let subtotal = 0;
-
-            cartRows.forEach(row => {
-                const price = parseFloat(row.querySelector('.hiraola-product-price .amount').textContent.replace(' TL', '').replace(',', '.'));
-                const quantity = parseInt(row.querySelector('.cart-plus-minus-box').value);
-                subtotal += price * quantity;
+            $('.product-subtotal').each(function() {
+                subtotal += parseFloat($(this).text().replace(' TL', '').replace('.', '').replace(',', '.'));
             });
-
-            cartSubtotal.textContent = subtotal.toFixed(2).replace('.', ',') + ' TL';
-            cartTotal.textContent = subtotal.toFixed(2).replace('.', ',') + ' TL';
+            $('.cart-subtotal').text(subtotal.toFixed(2).replace('.', ',') + ' TL');
+            $('.cart-total').text(subtotal.toFixed(2).replace('.', ',') + ' TL');
         }
+
+        // Update subtotal for a row
+        function updateSubtotal(row) {
+            const price = parseFloat(row.find('.hiraola-product-price').text().replace(' TL', '').replace('.', '').replace(',', '.'));
+            const quantity = parseInt(row.find('.cart-plus-minus-box').val());
+            const subtotal = price * quantity;
+            row.find('.product-subtotal').text(subtotal.toFixed(2).replace('.', ',') + ' TL');
+        }
+
+        // Initial total update on page load
+        updateCartTotal();
     });
 </script>
+<style>
+    .dec.qtybutton, .inc.qtybutton {
+        display: none !important;
+    }
+
+    #odemeBtn {
+    background-color: #595959;
+    border: 1px solid #e5e5e5;
+    color: #fff;
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    text-transform: capitalize;
+}
+</style>

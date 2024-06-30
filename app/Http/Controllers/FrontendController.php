@@ -115,14 +115,30 @@ class FrontendController extends BaseController
     public function basket(Request $request)
     {
         $productIds = $request->input('products', []);
+        $products = Products::whereIn('id', $productIds)->get();
+        $this->data['productInformation'] = $products;
+        $sizes = DB::table('sma_product_types')
+            ->select('id', 'product_id', 's', 'm', 'l', 'xl', 'xxl')
+            ->whereIn('product_id', $productIds)
+            ->where(function ($query) {
+                $query->where('s', '!=', 0)
+                    ->orWhere('m', '!=', 0)
+                    ->orWhere('l', '!=', 0)
+                    ->orWhere('xl', '!=', 0)
+                    ->orWhere('xxl', '!=', 0);
+            })
+            ->get();
 
-        $this->data['productInformation'] = Products::whereIn('id', $productIds)->get();
-
+        $this->data['sizes'] = $sizes->map(function ($item) {
+            return collect($item)->filter(function ($value, $key) {
+                return $value !== 0 || in_array($key, ['id', 'product_id']);
+            });
+        });
 
         return view('basket', $this->data);
     }
-    public function payment()
+    public function payment(Request $request)
     {
-        return view('checkout', $this->data);
+        dd($request->all());
     }
 }
