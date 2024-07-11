@@ -44,9 +44,25 @@ class FrontendController extends BaseController
 
     public function index()
     {
-        $this->data['products'] = Products::where('active', 1)->orderBy('id', 'desc')->get();
+        // Aktif olan ve stokta olan ürünleri id'ye göre sıralı şekilde filtrele ve kategoriye göre grupla
+        $this->data['groupedProducts'] = Products::where('active', 1)
+                                   ->where('quantity', '>', 0)
+                                   ->orderByDesc('id')
+                                   ->get()
+                                   ->groupBy('category_id')
+                                   ->map(function($items, $key) {
+                                       return [
+                                           'category' => Categories::findOrFail($key),
+                                           'products' => $items,
+                                       ];
+                                   });
+    
+        // Gruplanmış ürünleri ve diğer verileri view'e gönder
+        // Map(function) fonksiyonu ile gruplanmış ürünleri ve kategorileri birleştiriyoruz
         return view('index', $this->data);
     }
+    
+    
 
     public function categories($slug_kategoriadi)
     {
