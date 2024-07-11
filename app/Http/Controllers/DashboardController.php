@@ -135,7 +135,7 @@ class DashboardController extends BaseController
         $categoriesCacheKey = 'categories.all';
 
         $products = Cache::remember($productsCacheKey, 60, function () {
-            return Products::with('category')->orderBy('id', 'desc')->get();
+            return Products::with('category')->join('sma_product_types', 'sma_products.id', '=', 'sma_product_types.product_id')->get();
         });
 
         $productTypes = Cache::remember($productTypesCacheKey, 60, function () {
