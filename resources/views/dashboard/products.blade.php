@@ -37,8 +37,8 @@
                                             <th>Ürün Fotografi</th>
                                             <th>Ürün Kategorisi</th>
                                             <th>Ürün Adı</th>
-                                            <th>Ürün Detayı</th>
                                             <th>Ürün Fiyatı</th>
+                                            <th>Stok Durumu</th>
                                             <th>Görünürlük Durumu</th>
                                             <th>İşlemler</th>
                                         </tr>
@@ -49,9 +49,14 @@
                                             <td><img src="{{ asset('images/'.$product->image) }}" alt="Product Image" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
                                             <td>{{ $product->category->name ?? 'Kategori Bulunamadı' }}</td>
                                             <td>{{ $product->name }}</td>
-                                            <td>{{ $product->product_details }}</td>
                                             <td>{{ number_format($product->price, 2) }} ₺</td>
                                             <td>
+                                                @if($product->quantity == $product->s + $product->m + $product->l + $product->xl + $product->xxl)
+                                                    Stokta
+                                                @else
+                                                    Stok Hatası
+                                                @endif
+                                            </td>                                            <td>
                                                 @if($product->active == '1')
                                                 <i class="mdi mdi-eye text-success" title="Ürün aktif"></i>
                                                 @else
