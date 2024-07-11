@@ -129,7 +129,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="hiraola-section_title">
-                    <h4>Test Kategori 2</h4>
+                    <h4>Alt Giyim</h4>
                 </div>
             </div>
             <div class="col-lg-12">
@@ -180,7 +180,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="hiraola-section_title">
-                    <h4>Test Kategori 3</h4>
+                    <h4>Üst Giyim</h4>
                 </div>
             </div>
             <div class="col-lg-12">

@@ -33,43 +33,49 @@
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
-                                    <tr>
-                                        <td class="hiraola-product-remove">
-                                            <a href="#" class="remove-product" data-product-id="{{ $product->id }}">
-                                                <i class="fa fa-trash" title="Kaldır"></i>
-                                            </a>
-                                        </td>
-                                        <td class="hiraola-product-thumbnail">
-                                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: 100px;">
-                                        </td>
-                                        <td class="hiraola-product-name">
-                                            {{ $product->name }}
-                                            <input type="hidden" name="products[{{ $loop->index }}][id]" value="{{ $product->id }}">
-                                        </td>
-                                        <td class="hiraola-product-price">
-                                            {{ number_format($product->price, 2, ',', '.') }} TL
-                                            <input type="hidden" name="products[{{ $loop->index }}][price]" value="{{ $product->price }}">
-                                        </td>
-                                        <td class="quantity">
-                                            <div class="hiraola-product-price">
-                                                <input value="1" type="text" name="products[{{ $loop->index }}][quantity]" class="form-control cart-plus-minus-box">
-                                            </div>
-                                        </td>
-                                        <td class="hiraola-product-size">
-                                            <select class="form-control product-size" name="products[{{ $loop->index }}][size]">
-                                                @foreach($sizes->where('product_id', $product->id) as $size)
-                                                    @foreach($size as $key => $value)
-                                                        @if($key !== 'id' && $key !== 'product_id' && $value !== 0)
-                                                            <option value="{{ $key }}">{{ strtoupper($key) }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td class="product-subtotal">
-                                            {{ number_format($product->price, 2, ',', '.') }} TL
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td class="hiraola-product-remove">
+                                        <a href="#" class="remove-product" data-product-id="{{ $product->id }}">
+                                            <i class="fa fa-trash" title="Kaldır"></i>
+                                        </a>
+                                    </td>
+                                    <td class="hiraola-product-thumbnail">
+                                        <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: 100px;">
+                                    </td>
+                                    <td class="hiraola-product-name">
+                                        {{ $product->name }}
+                                        <input type="hidden" name="products[{{ $loop->index }}][id]" value="{{ $product->id }}">
+                                    </td>
+                                    <td class="hiraola-product-price">
+                                        {{ number_format($product->price, 2, ',', '.') }} TL
+                                        <input type="hidden" name="products[{{ $loop->index }}][price]" value="{{ $product->price }}">
+                                    </td>
+                                    <td class="quantity">
+                                        <div class="hiraola-product-price">
+                                            <input value="1" type="text" name="products[{{ $loop->index }}][quantity]" class="form-control cart-plus-minus-box">
+                                        </div>
+                                    </td>
+                                    <td class="hiraola-product-size">
+                                        <select class="form-control product-size" name="products[{{ $loop->index }}][size]">
+                                            @if ($sizes->where('product_id', $product->id)->isEmpty())
+                                            <option>Beden bulunmamaktadır</option>
+                                            @else
+                                            @foreach ($sizes->where('product_id', $product->id) as $size)
+                                            @foreach ($size as $key => $value)
+                                            @if ($key !== 'id' && $key !== 'product_id' && $value !== 0)
+                                            <option value="{{ $key }}">
+                                                {{ strtoupper($key) }}
+                                            </option>
+                                            @endif
+                                            @endforeach
+                                            @endforeach
+                                            @endif
+                                        </select>
+                                    </td>
+                                    <td class="product-subtotal">
+                                        {{ number_format($product->price, 2, ',', '.') }} TL
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -114,7 +120,8 @@
         function updateCartTotal() {
             let subtotal = 0;
             $('.product-subtotal').each(function() {
-                subtotal += parseFloat($(this).text().replace(' TL', '').replace('.', '').replace(',', '.'));
+                subtotal += parseFloat($(this).text().replace(' TL', '').replace('.', '').replace(',',
+                    '.'));
             });
             $('.cart-subtotal').text(subtotal.toFixed(2).replace('.', ',') + ' TL');
             $('.cart-total').text(subtotal.toFixed(2).replace('.', ',') + ' TL');
@@ -122,7 +129,8 @@
 
         // Update subtotal for a row
         function updateSubtotal(row) {
-            const price = parseFloat(row.find('.hiraola-product-price').text().replace(' TL', '').replace('.', '').replace(',', '.'));
+            const price = parseFloat(row.find('.hiraola-product-price').text().replace(' TL', '').replace('.',
+                '').replace(',', '.'));
             const quantity = parseInt(row.find('.cart-plus-minus-box').val());
             const subtotal = price * quantity;
             row.find('.product-subtotal').text(subtotal.toFixed(2).replace('.', ',') + ' TL');
@@ -133,17 +141,18 @@
     });
 </script>
 <style>
-    .dec.qtybutton, .inc.qtybutton {
+    .dec.qtybutton,
+    .inc.qtybutton {
         display: none !important;
     }
 
     #odemeBtn {
-    background-color: #595959;
-    border: 1px solid #e5e5e5;
-    color: #fff;
-    display: inline-block;
-    margin-top: 30px;
-    padding: 10px 20px;
-    text-transform: capitalize;
-}
+        background-color: #595959;
+        border: 1px solid #e5e5e5;
+        color: #fff;
+        display: inline-block;
+        margin-top: 30px;
+        padding: 10px 20px;
+        text-transform: capitalize;
+    }
 </style>

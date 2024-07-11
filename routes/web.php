@@ -18,6 +18,8 @@ Route::get('/urunler/{slug_kategoriadi?}', [FrontendController::class, 'products
 Route::get('/urun/{slug_urunadi}', [FrontendController::class, 'productDetail'])->name('page.product.detail');
 Route::post('/sepet', [FrontendController::class, 'basket'])->name('basket');
 Route::post('/odeme', [FrontendController::class, 'payment'])->name('payment');
+Route::post('paytr', [FrontendController::class, 'paytrCallback'])->name('paytr.callback');
+
 
 // Admin Giriş Sayfası ve Yönlendirme
 Route::get('/admin', [AuthController::class, 'login'])->name('login');

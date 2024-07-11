@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers;
 
@@ -17,7 +17,7 @@ class ProductsController extends Controller
         $this->handleProductImage($request, $product);
         $product->fill($this->getProductData($request));
         $product->save();
-        $this->updateProductTypes($product->id, $request->input('id'));
+        $this->updateProductTypes($product->id, $request->only('s', 'm', 'l', 'xl', 'xxl'));
         return redirect()->back()->with('success', 'Ürün Güncellendi');
     }
 
@@ -42,35 +42,35 @@ class ProductsController extends Controller
         $product->delete();
         return redirect()->back()->with('success', 'Ürün başarıyla silindi');
     }
-    private function updateProductTypes($productId, $request)
-    {
-        $addDB = DB::table('sma_product_types')->insert([
-            'product_id' => $productId,
-            's' => $request['s'] ?? 0,
-            'm' => $request['m'] ?? 0,
-            'l' => $request['l'] ?? 0,
-            'xl' => $request['xl'] ?? 0,
-            'xxl' => $request['xxl'] ?? 0,
-        ]);
-    
-        return $addDB;
-    }
-    
 
+    private function updateProductTypes($productId, $data)
+    {
+        return DB::table('sma_product_types')->insert([
+            'product_id' => $productId,
+            's' => $data['s'] ?? 0,
+            'm' => $data['m'] ?? 0,
+            'l' => $data['l'] ?? 0,
+            'xl' => $data['xl'] ?? 0,
+            'xxl' => $data['xxl'] ?? 0,
+        ]);
+    }
 
     private function handleProductImage(Request $request, $product)
     {
-        $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
-        $destinationPath = public_path('images');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('images');
 
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $image->move($destinationPath, $imageName);
+
+            $product->image = $imageName;
+            $product->save();
         }
-
-        $request->file('image')->move($destinationPath, $imageName);
-
-        $product->image = $imageName;
-        $product->save();
     }
 
     private function handleMultipleImages(Request $request, $product)
@@ -107,7 +107,7 @@ class ProductsController extends Controller
             'price' => $request->input('price'),
             'product_details' => $request->input('product_description'),
             'type_id' => $request->input('type_id'),
-            'active' => $request->input('visible'),
+            'active' => $request->input('visible') ?? 1,
             'aciklama' => $request->input('aciklama'),
             'unit' => $request->input('unit'),
             'category_id' => $request->input('category_id') ?? 0,
