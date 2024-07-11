@@ -52,9 +52,9 @@
                                             <td>{{ number_format($product->price, 2) }} ₺</td>
                                             <td>
                                                 @if($product->quantity == $product->s + $product->m + $product->l + $product->xl + $product->xxl)
-                                                    Stokta
+                                                    {{ number_format($product->quantity)}} Adet
                                                 @else
-                                                    Stok Hatası
+                                                   <button class="btn btn-danger btn-sm">Stok Hatası <i class="fas fa-exclamation-triangle"></i></button>
                                                 @endif
                                             </td>                                            <td>
                                                 @if($product->active == '1')
