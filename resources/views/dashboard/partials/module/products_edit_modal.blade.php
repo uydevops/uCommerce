@@ -34,15 +34,6 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="productCategory" class="form-label">Ürün Kullanım Alanı</label>
-                                <select class="form-select" name="type_id" required>
-                                    @foreach($product_types as $product_type)
-                                        <option value="{{ $product_type->id }}" {{ $product_type->id == $product->type_id ? 'selected' : '' }}>{{ $product_type->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="productName" class="form-label">Ürün Adı</label>
                                 <input type="text" class="form-control" name="name" value="{{ $product->name }}" required>
                             </div>
